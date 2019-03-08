@@ -14,7 +14,6 @@ module Test
           def initialize(suite, options={})
             super
             @junit_test_suites = []
-            @xml_encoding = @options[:junitxml_encoding] || "UTF-8"
           end
 
           private
@@ -69,7 +68,6 @@ module Test
             # open ERB template
             template = File.read(File.expand_path("xml.erb",
                                                   File.dirname(__FILE__)))
-            template.prepend("%# coding: #{@xml_encoding}\n")
             erb = ERB.new(template, nil, "%")
 
             # output

@@ -12,12 +12,6 @@ module Test
               "Outputs to FILE_NAME") do |name|
         auto_runner.runner_options[:junitxml_output_file] = name
       end
-
-      opts.on("--junitxml-encoding=ENCODING",
-              "Uses ENCODING as XML encoding",
-              "(default is UTF-8)") do |enc|
-        auto_runner.runner_options[:junitxml_encoding] = enc
-      end
     end
   end
 end
