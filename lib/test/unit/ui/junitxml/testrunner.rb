@@ -68,7 +68,11 @@ module Test
             # open ERB template
             template = File.read(File.expand_path("xml.erb",
                                                   File.dirname(__FILE__)))
-            erb = ERB.new(template, nil, "%")
+            if ERB.instance_method(:initialize).parameters.assoc(:key)
+              erb = ERB.new(template, trim_mode: "%")
+            else
+              erb = ERB.new(template, nil, "%")
+            end
 
             # output
             output = if @options[:junitxml_output_file]
