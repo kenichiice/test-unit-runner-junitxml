@@ -114,7 +114,8 @@ module Test
         end
 
         class JUnitTestCase
-          attr_reader :class_name, :name, :failure, :error
+          attr_reader :class_name, :name
+          attr_reader :failure, :error, :omission, :pending
           attr_accessor :assertion_count, :time
 
           def initialize(class_name, name)
@@ -122,7 +123,8 @@ module Test
             @name = name
             @assertion_count = 0
             @time = 0
-            @skipped = false
+            @omission = nil
+            @pending = nil
           end
 
           def <<(fault)
@@ -132,13 +134,15 @@ module Test
               @failure = fault
             when Error
               @error = fault
-            when Omission, Pending
-              @skipped = true
+            when Omission
+              @omission = fault
+            when Pending
+              @pending = fault
             end
           end
 
           def skipped?
-            @skipped
+            @omission || @pending
           end
         end
 

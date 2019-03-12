@@ -21,8 +21,10 @@
       <failure message="<%=h test_case.failure.message %>">
 <%=h test_case.failure.long_display %>
       </failure>
-%     elsif test_case.skipped?
-      <skipped/>
+%     elsif test_case.omission
+      <skipped message="<%=h test_case.omission.message %>"/>
+%     elsif test_case.pending
+      <skipped message="<%=h test_case.pending.message %>"/>
 %     end
     </testcase>
 %   end
