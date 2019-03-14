@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{A test-unit runner that reports test result in JUnit XML format.}
   #spec.description   = %q{TODO: Write a longer description or delete this line.}
-  #spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/kenichiice/test-unit-runner-junitxml"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.
