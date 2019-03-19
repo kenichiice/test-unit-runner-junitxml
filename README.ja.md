@@ -1,20 +1,20 @@
-[[日本語](README.ja.md)]
+[[English](README.md)]
 
 [![Build Status](https://travis-ci.org/kenichiice/test-unit-runner-junitxml.svg?branch=master)](https://travis-ci.org/kenichiice/test-unit-runner-junitxml)
 
 # Test::Unit::Runner::JUnitXml
 
-Test::Unit::Runner::JUnitXml is a [test-unit](https://github.com/test-unit/test-unit) runner that reports test result in JUnit XML format.
+Test::Unit::Runner::JUnitXml は [test-unit](https://github.com/test-unit/test-unit) のテスト結果をJUnit XML形式で出力するライブラリです。
 
-## Installation
+## インストール方法
 
     $ gem install test-unit-runner-junitxml
 
-## Usage
+## 使い方
 
-By loading `test/unit/runner/junitxml.rb`, you can select `junitxml` runner via the `--runner` command line option of test script. This runner reports test result in JUnit XML format.
+`test/unit/runner/junitxml.rb` をロードすると、テストスクリプトの `--runner` オプションに `junitxml` を指定できるようになります。これを指定すると、テスト結果がJUnit XML形式で出力されれうようになります。
 
-In addition, `--junitxml-output-file` command line option is added, and it becomes possible to output the test result to the file specified by this option.
+また、 `--junitxml-output-file` オプションも追加され、このオプションで指定したファイルにテスト結果を出力することができるようになります。
 
 ```ruby
 # test.rb
@@ -54,6 +54,6 @@ test_1(MyTest) [test.rb:6]:
 </testsuites>
 ```
 
-## License
+## ライセンス
 
 [MIT License](https://opensource.org/licenses/MIT)
