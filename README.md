@@ -1,6 +1,6 @@
 [[日本語](README.ja.md)]
 
-[![Build Status](https://travis-ci.org/kenichiice/test-unit-runner-junitxml.svg?branch=master)](https://travis-ci.org/kenichiice/test-unit-runner-junitxml)
+[![Test](https://github.com/kenichiice/test-unit-runner-junitxml/workflows/Test/badge.svg)](https://github.com/kenichiice/test-unit-runner-junitxml/actions?query=workflow%3ATest+branch%3Amaster)
 
 # Test::Unit::Runner::JUnitXml
 
