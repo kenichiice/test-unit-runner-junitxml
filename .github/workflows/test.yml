@@ -15,6 +15,10 @@ jobs:
         ruby: [head, 2.7, 2.6, 2.5, 2.4, 2.3, jruby, truffleruby]
         exclude:
           - os: windows-latest
+            ruby: 2.4
+          - os: windows-latest
+            ruby: 2.3
+          - os: windows-latest
             ruby: truffleruby
     runs-on: ${{ matrix.os }}
     # continue-on-error: ${{ endsWith(matrix.ruby, 'head') }}
@@ -23,6 +27,9 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true    
+        bundler-cache: true
     # - run: bundle install
-    - run: bundle exec rake test
+    - if: matrix.ruby != 'jruby'
+      run: bundle exec rake test
+    - if: matrix.ruby == 'jruby'
+      run: bundle exec rake test TESTOPTS='--ignore-name=/multibyte/'
