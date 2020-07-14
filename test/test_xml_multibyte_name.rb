@@ -4,33 +4,33 @@ require "test/unit"
 require "test/unit/ui/junitxml/testrunner"
 require_relative "check"
 
-class TestXml < Test::Unit::TestCase
+class TestXmlMultibyteName < Test::Unit::TestCase
   include Check
 
   setup do
     test_case = Class.new(Test::Unit::TestCase) do
-      test "success" do
+      test "成功" do
         assert_equal(1, 1)
       end
 
       def test_failure
         assert_equal(1, 1)
-        assert_equal(1, 2)
+        assert_equal(1, 2, "失敗")
       end
 
       def test_error
         assert_equal(1, 1)
         assert_equal(1, 1)
         assert_equal(1, 1)
-        raise "hello"
+        raise "エラー"
       end
 
       def test_omission
-        omit
+        omit("除外")
       end
 
       def test_pending
-        pend
+        pend("保留")
       end
     end
 
@@ -56,7 +56,7 @@ class TestXml < Test::Unit::TestCase
 
   test "testcase success" do
     testcase_array = @doc.get_elements(
-      "/testsuites/testsuite/testcase[@name='success']")
+      "/testsuites/testsuite/testcase[@name='成功']")
     assert_equal(1, testcase_array.size)
     check_testcase_success(testcase_array.first, "", 1)
   end
@@ -65,27 +65,27 @@ class TestXml < Test::Unit::TestCase
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_failure()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_failure(testcase_array.first, "", 2)
+    check_testcase_failure(testcase_array.first, "", 2, "失敗")
   end
 
   test "testcase error" do
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_error()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_error(testcase_array.first, "", 3, "hello")
+    check_testcase_error(testcase_array.first, "", 3, "エラー")
   end
 
   test "testcase omission" do
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_omission()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_skipped(testcase_array.first, "", 0)
+    check_testcase_skipped(testcase_array.first, "", 0, "除外")
   end
 
   test "testcase pending" do
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_pending()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_skipped(testcase_array.first, "", 0)
+    check_testcase_skipped(testcase_array.first, "", 0, "保留")
   end
 end

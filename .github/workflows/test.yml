@@ -32,4 +32,4 @@ jobs:
     - if: matrix.ruby != 'jruby'
       run: bundle exec rake test
     - if: matrix.ruby == 'jruby'
-      run: bundle exec rake test TESTOPTS='--ignore-name=/multibyte/'
+      run: bundle exec rake test TESTOPTS='--ignore-testcase=TestXmlMultibyteName'
