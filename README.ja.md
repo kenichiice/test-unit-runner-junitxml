@@ -12,7 +12,7 @@ Test::Unit::Runner::JUnitXml は [test-unit](https://github.com/test-unit/test-u
 
 ## 使い方
 
-`test/unit/runner/junitxml.rb` をロードすると、テストスクリプトの `--runner` オプションに `junitxml` を指定できるようになります。これを指定すると、テスト結果がJUnit XML形式で出力されれうようになります。
+`test/unit/runner/junitxml.rb` をロードすると、テストスクリプトの `--runner` オプションに `junitxml` を指定できるようになります。これを指定すると、テスト結果がJUnit XML形式で出力されるようになります。
 
 また、 `--junitxml-output-file` オプションも追加され、このオプションで指定したファイルにテスト結果を出力することができるようになります。
 
