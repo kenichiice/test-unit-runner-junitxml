@@ -9,6 +9,8 @@ class TestXmlWithOutput < Test::Unit::TestCase
 
   setup do
     test_case = Class.new(Test::Unit::TestCase) do
+      include Test::Unit::Util::Output
+
       test "success" do
         assert_equal(1, 1)
         puts("out 1")
@@ -38,6 +40,15 @@ class TestXmlWithOutput < Test::Unit::TestCase
         warn("warn 3")
         pend("pending 1")
       end
+
+      def test_with_capture_output
+        out, err = capture_output do
+          puts("out 4")
+          warn("warn 4")
+        end
+        assert_equal("out 4\n", out)
+        assert_equal("warn 4\n", err)
+      end
     end
 
     output = StringIO.new
@@ -57,7 +68,7 @@ class TestXmlWithOutput < Test::Unit::TestCase
   test "testsuite" do
     testsuite_array = @doc.get_elements("/testsuites/testsuite")
     assert_equal(1, testsuite_array.size)
-    check_testsuite(testsuite_array.first, "", 5, 1, 1, 2)
+    check_testsuite(testsuite_array.first, "", 6, 1, 1, 2)
   end
 
   test "testcase success" do
@@ -93,5 +104,12 @@ class TestXmlWithOutput < Test::Unit::TestCase
       "/testsuites/testsuite/testcase[@name='test_pending()']")
     assert_equal(1, testcase_array.size)
     check_testcase_skipped(testcase_array.first, "", 0, "pending 1", nil, "warn 3")
+  end
+
+  test "testcase test_with_capture_output" do
+    testcase_array = @doc.get_elements(
+      "/testsuites/testsuite/testcase[@name='test_with_capture_output()']")
+    assert_equal(1, testcase_array.size)
+    check_testcase_success(testcase_array.first, "", 2)
   end
 end
