@@ -12,6 +12,10 @@ module Test
               "Outputs to FILE_NAME") do |name|
         auto_runner.runner_options[:junitxml_output_file] = name
       end
+      opts.on("--junitxml-disable-output-capture",
+              "Disable output capture") do |b|
+        auto_runner.runner_options[:junitxml_disable_output_capture] = b
+      end
     end
   end
 end

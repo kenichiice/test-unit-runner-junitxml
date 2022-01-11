@@ -51,16 +51,20 @@ module Test
           def test_started(test)
             test_case = JUnitTestCase.new(test.class.name, test.description)
             @junit_test_suites.last << test_case
-            @stdout_org = $stdout
-            @stderr_org = $stderr
-            $stdout = test_case.stdout
-            $stderr = test_case.stderr
+            unless @options[:junitxml_disable_output_capture]
+              @stdout_org = $stdout
+              @stderr_org = $stderr
+              $stdout = test_case.stdout
+              $stderr = test_case.stderr
+            end
           end
 
           def test_finished(test)
             @junit_test_suites.last.test_cases.last.time = test.elapsed_time
-            $stdout = @stdout_org
-            $stderr = @stderr_org
+            unless @options[:junitxml_disable_output_capture]
+              $stdout = @stdout_org
+              $stderr = @stderr_org
+            end
           end
 
           def result_pass_assertion(result)
