@@ -17,6 +17,12 @@
 %		elsif test_case.pending
 			<skipped message="<%=h test_case.pending.message %>"/>
 %		end
+%		if test_case.stdout.size > 0
+			<system-out><%=h test_case.stdout.string %></system-out>
+%		end
+%		if test_case.stderr.size > 0
+			<system-err><%=h test_case.stderr.string %></system-err>
+%		end
 		</testcase>
 %	end
 	</testsuite>

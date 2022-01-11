@@ -1,4 +1,5 @@
 require 'erb'
+require 'stringio'
 require 'test/unit/ui/testrunner'
 require 'test/unit/ui/testrunnermediator'
 
@@ -48,12 +49,18 @@ module Test
           end
 
           def test_started(test)
-            @junit_test_suites.last << JUnitTestCase.new(test.class.name,
-                                                         test.description)
+            test_case = JUnitTestCase.new(test.class.name, test.description)
+            @junit_test_suites.last << test_case
+            @stdout_org = $stdout
+            @stderr_org = $stderr
+            $stdout = test_case.stdout
+            $stderr = test_case.stderr
           end
 
           def test_finished(test)
             @junit_test_suites.last.test_cases.last.time = test.elapsed_time
+            $stdout = @stdout_org
+            $stderr = @stderr_org
           end
 
           def result_pass_assertion(result)
@@ -116,15 +123,16 @@ module Test
         class JUnitTestCase
           attr_reader :class_name, :name
           attr_reader :failure, :error, :omission, :pending
+          attr_reader :stdout, :stderr
           attr_accessor :assertion_count, :time
 
           def initialize(class_name, name)
             @class_name = class_name
             @name = name
+            @stdout = StringIO.new
+            @stderr = StringIO.new
             @assertion_count = 0
             @time = 0
-            @omission = nil
-            @pending = nil
           end
 
           def <<(fault)
