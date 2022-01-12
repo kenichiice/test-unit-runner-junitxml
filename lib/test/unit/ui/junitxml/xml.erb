@@ -5,13 +5,9 @@
 %	test_suite.test_cases.each do |test_case|
 		<testcase classname="<%=h test_case.class_name %>" name="<%=h test_case.name %>" time="<%=h test_case.time %>" assertions="<%=h test_case.assertion_count %>">
 %		if test_case.error
-			<error message="<%=h test_case.error.message %>" type="<%=h test_case.error.exception.class.name %>">
-<%=h test_case.error.long_display %>
-			</error>
+			<error message="<%=h test_case.error.message %>" type="<%=h test_case.error.exception.class.name %>"><%=h test_case.error.long_display %></error>
 %		elsif test_case.failure
-			<failure message="<%=h test_case.failure.message %>">
-<%=h test_case.failure.long_display %>
-			</failure>
+			<failure message="<%=h test_case.failure.message %>"><%=h test_case.failure.long_display %></failure>
 %		elsif test_case.omission
 			<skipped message="<%=h test_case.omission.message %>"/>
 %		elsif test_case.pending
