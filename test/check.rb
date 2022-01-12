@@ -11,20 +11,16 @@ module Check
     assert_compare(0, "<", Float(testsuite.attribute("time").value))
   end
 
-  def check_testcase_success(testcase, class_name, assertions)
-    assert_equal(class_name, testcase.attribute("classname").value)
-    assert_equal(assertions.to_s, testcase.attribute("assertions").value)
-    assert_compare(0, "<", Float(testcase.attribute("time").value))
+  def check_testcase_success(testcase, class_name, assertions, out = nil, err = nil)
+    check_test_case(testcase, class_name, assertions, out, err)
 
     assert_equal(0, testcase.get_elements("failure").size)
     assert_equal(0, testcase.get_elements("error").size)
     assert_equal(0, testcase.get_elements("skipped").size)
   end
 
-  def check_testcase_failure(testcase, class_name, assertions, message = nil)
-    assert_equal(class_name, testcase.attribute("classname").value)
-    assert_equal(assertions.to_s, testcase.attribute("assertions").value)
-    assert_compare(0, "<", Float(testcase.attribute("time").value))
+  def check_testcase_failure(testcase, class_name, assertions, message = nil, out = nil, err = nil)
+    check_test_case(testcase, class_name, assertions, out, err)
 
     failures = testcase.get_elements("failure")
     assert_equal(1, failures.size)
@@ -38,10 +34,8 @@ module Check
     assert_equal(0, testcase.get_elements("skipped").size)
   end
 
-  def check_testcase_error(testcase, class_name, assertions, message = nil)
-    assert_equal(class_name, testcase.attribute("classname").value)
-    assert_equal(assertions.to_s, testcase.attribute("assertions").value)
-    assert_compare(0, "<", Float(testcase.attribute("time").value))
+  def check_testcase_error(testcase, class_name, assertions, message = nil, out = nil, err = nil)
+    check_test_case(testcase, class_name, assertions, out, err)
 
     errors = testcase.get_elements("error")
     assert_equal(1, errors.size)
@@ -56,10 +50,8 @@ module Check
     assert_equal(0, testcase.get_elements("skipped").size)
   end
 
-  def check_testcase_skipped(testcase, class_name, assertions, message = nil)
-    assert_equal(class_name, testcase.attribute("classname").value)
-    assert_equal(assertions.to_s, testcase.attribute("assertions").value)
-    assert_compare(0, "<", Float(testcase.attribute("time").value))
+  def check_testcase_skipped(testcase, class_name, assertions, message = nil, out = nil, err = nil)
+    check_test_case(testcase, class_name, assertions, out, err)
 
     skipped = testcase.get_elements("skipped")
     assert_equal(1, skipped.size)
@@ -67,5 +59,27 @@ module Check
 
     assert_equal(0, testcase.get_elements("failure").size)
     assert_equal(0, testcase.get_elements("error").size)
+  end
+
+  def check_test_case(testcase, class_name, assertions, out = nil, err = nil)
+    assert_equal(class_name, testcase.attribute("classname").value)
+    assert_equal(assertions.to_s, testcase.attribute("assertions").value)
+    assert_compare(0, "<", Float(testcase.attribute("time").value))
+
+    system_outs = testcase.get_elements("system-out")
+    if out
+      assert_equal(1, system_outs.size)
+      assert_match(out, system_outs.first.text)
+    else
+      assert_equal(0, system_outs.size)
+    end
+
+    system_errs = testcase.get_elements("system-err")
+    if err
+      assert_equal(1, system_errs.size)
+      assert_match(err, system_errs.first.text)
+    else
+      assert_equal(0, system_errs.size)
+    end
   end
 end
