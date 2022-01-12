@@ -54,6 +54,6 @@ class TestXmlMultiTestcases < Test::Unit::TestCase
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='failure']")
     assert_equal(1, testcase_array.size)
-    check_testcase_failure(testcase_array.first, "", 1)
+    check_testcase_failure(testcase_array.first, "", 1, /.+/)
   end
 end

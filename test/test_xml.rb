@@ -65,7 +65,7 @@ class TestXml < Test::Unit::TestCase
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_failure()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_failure(testcase_array.first, "", 2)
+    check_testcase_failure(testcase_array.first, "", 2, /.+/)
   end
 
   test "testcase error" do
@@ -79,13 +79,13 @@ class TestXml < Test::Unit::TestCase
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_omission()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_skipped(testcase_array.first, "", 0)
+    check_testcase_skipped(testcase_array.first, "", 0, /.+/)
   end
 
   test "testcase pending" do
     testcase_array = @doc.get_elements(
       "/testsuites/testsuite/testcase[@name='test_pending()']")
     assert_equal(1, testcase_array.size)
-    check_testcase_skipped(testcase_array.first, "", 0)
+    check_testcase_skipped(testcase_array.first, "", 0, /.+/)
   end
 end
