@@ -133,6 +133,7 @@ module Test
           def initialize(class_name, name)
             @class_name = class_name
             @name = name
+            @failure = @error = @omission = @pending = nil
             @stdout = StringIO.new
             @stderr = StringIO.new
             @assertion_count = 0
