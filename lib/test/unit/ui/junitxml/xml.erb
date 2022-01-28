@@ -3,7 +3,7 @@
 % @junit_test_suites.each do |test_suite|
 	<testsuite name="<%=h test_suite.name %>" tests="<%=h test_suite.test_cases.size %>" errors="<%=h test_suite.errors.size %>" failures="<%=h test_suite.failures.size %>" skipped="<%=h test_suite.test_cases.count(&:skipped?) %>" time="<%=h test_suite.time %>">
 %	test_suite.test_cases.each do |test_case|
-		<testcase classname="<%=h test_case.class_name %>" name="<%=h test_case.name %>" time="<%=h test_case.time %>" assertions="<%=h test_case.assertion_count %>">
+                <testcase classname="<%=h test_case.class_name %>" name="<%=h test_case.name %>" file="<%=h test_case.file%>" time="<%=h test_case.time %>" assertions="<%=h test_case.assertion_count %>">
 %		if test_case.error
 			<error message="<%=h test_case.error.message %>" type="<%=h test_case.error.exception.class.name %>"><%=h test_case.error.long_display %></error>
 %		elsif test_case.failure

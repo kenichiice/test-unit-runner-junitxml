@@ -15,6 +15,7 @@ module Test
           def initialize(suite, options={})
             super
             @junit_test_suites = []
+            @base_dir_re = /\A#{Regexp.quote(Dir.pwd)}\//
           end
 
           private
@@ -49,7 +50,7 @@ module Test
           end
 
           def test_started(test)
-            test_case = JUnitTestCase.new(test.class.name, test.description)
+            test_case = JUnitTestCase.new(test.class.name, test.description, test_file(test))
             @junit_test_suites.last << test_case
             unless @options[:junitxml_disable_output_capture]
               @stdout_org = $stdout
@@ -57,6 +58,12 @@ module Test
               $stdout = test_case.stdout
               $stderr = test_case.stderr
             end
+          end
+
+          def test_file(test)
+            file = (test[:source_location] ||
+                    test.method(test.method_name).source_location).first
+            file.sub(@base_dir_re, "")
           end
 
           def test_finished(test)
@@ -125,14 +132,15 @@ module Test
         end
 
         class JUnitTestCase
-          attr_reader :class_name, :name
+          attr_reader :class_name, :name, :file
           attr_reader :failure, :error, :omission, :pending
           attr_reader :stdout, :stderr
           attr_accessor :assertion_count, :time
 
-          def initialize(class_name, name)
+          def initialize(class_name, name, file)
             @class_name = class_name
             @name = name
+            @file = file
             @failure = @error = @omission = @pending = nil
             @stdout = StringIO.new
             @stderr = StringIO.new

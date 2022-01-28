@@ -63,6 +63,7 @@ module Check
 
   def check_test_case(testcase, class_name, assertions, out = nil, err = nil)
     assert_equal(class_name, testcase.attribute("classname").value)
+    assert(caller_locations[1].path.end_with?(testcase.attribute("file").value))
     assert_equal(assertions.to_s, testcase.attribute("assertions").value)
     assert_compare(0, "<", Float(testcase.attribute("time").value))
 
